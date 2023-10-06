@@ -1,19 +1,19 @@
-CC = gcc# The compiler to use
-CFLAGS = -Wall# The compiler flags to use (-wall = all warnings)
+CXX = g++ # The C++ compiler to use
+CXXFLAGS = -Wall # The compiler flags to use (-Wall = all warnings)
+LDFLAGS = -lcurl # Linker flags for libcurl
 
 # List of source files
-SOURCES = main.c callMaker.c capture.c
+SOURCES = main.cpp callMaker.cpp capture.cpp getIp.cpp
 
 # The target executable
 TARGET = TeaRoom.exe
 
-#from here on are the gates of uncertanty
-all:	$(TARGET)
+all: $(TARGET)
 
-$(TARGET):	$(SOURCES)
-		$(CC)	$(CFLAGS)	$(SOURCES)	-o	$(TARGET)
+$(TARGET): $(SOURCES)
+	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(TARGET) $(LDFLAGS)
 
 clean:
-		rm -f $(TARGET)
+	rm -f $(TARGET)
 
 .PHONY: all clean
