@@ -3,7 +3,7 @@ CXXFLAGS = -Wall # The compiler flags to use (-Wall = all warnings)
 LDFLAGS = -lcurl # Linker flags for libcurl
 
 # List of source files
-SOURCES = main.cpp callMaker.cpp capture.cpp getIp.cpp
+SOURCES = main.cpp callMaker.cpp capture.cpp getIp.cpp phoneBook.cpp
 
 # The target executable
 TARGET = TeaRoom.exe
