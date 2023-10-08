@@ -28,7 +28,9 @@ int main(){
     cout << "1. Add a friend and save phonebook" << endl;
     cout << "2. Display Friends" << endl;
     cout << "3. Call a friend" << endl;
-    cout << "4. Exit" << endl;
+    cout << "4. delete a friend from the phonebook" << endl;
+    cout << "5. share your contact" << endl;
+    cout << "6. Exit" << endl;
     cout << "Enter your choice: ";
     cin >> choice;
 
@@ -46,15 +48,26 @@ int main(){
       cin.ignore();
       getline(cin, friendName);
       friendIp = getFriendIp(phonebook, friendName);
-      Setup_Call(MyIp, PORT_NUMBER, friendIp, PORT_NUMBER);
+      Setup_Call(MyIp, PORT_NUMBER, friendIp, PORT_NUMBER+1);
       break;
     case 4:
+      cout << "Enter the name of the friend to delete: ";
+      cin.ignore();
+      getline(cin, friendName);
+      deleteFriend(phonebook, filename, friendName);
+      break;
+    case 5:
+      cout << "Hi!, my ipv6 is: " << MyIp << endl;
+      cin.ignore();
+      getline(cin, friendName);
+      break;
+    case 6:
       cout << "Exiting program." << endl;
       break;
     default:
       cout << "Invalid choice. Please try again." << endl;
     }
-  } while (choice != 4);
+  } while (choice != 6);
 
   return 0;
   //use a windows manager to create a window, and interact with it
@@ -62,5 +75,4 @@ int main(){
   #code here where i get sender Ip(mine) and receiver Ip, also we agree on wich port to use
   */
   //when the interaction that causes the call to start happen, call Setup_Call to make it happen
-  Setup_Call(MyIp, PORT_NUMBER, "::1", PORT_NUMBER);
 }
