@@ -6,11 +6,21 @@ using namespace std;
 // Function to add a friend to the phonebook vector of structs and save the phonebook into a file
 void addFriend(vector<Friend> &phonebook, const string &filename){
   Friend friendInfo;
+  bool flag = true;
 
-  cout << "Enter friend's name: ";
-  cin.ignore();
-  getline(cin, friendInfo.name);
+  while(flag){
+    cout << "Enter friend's name: ";
+    cin.ignore();
+    getline(cin, friendInfo.name);
+    flag = false;
 
+    for (const Friend &allfriend : phonebook){
+      if(friendInfo.name == allfriend.name){
+        cout << "Name alredy in use, choose another one." << endl;
+        flag = true;
+      }
+    }
+  }
   cout << "Enter friend's IPv6 address: ";
   cin >> friendInfo.ipv6Address;
 
@@ -50,4 +60,32 @@ string getFriendIp(const vector<Friend>& phonebook, const string& friendName) {
         }
     }
     return "Friend not found"; // Return a message if the friend is not in the phonebook
+}
+
+// Function to delete a friend from the phonebook and the text file
+void deleteFriend(vector<Friend> &phonebook, const string &filename, const string &friendName)
+{
+  for (auto it = phonebook.begin(); it != phonebook.end(); ++it)
+  {
+    if (it->name == friendName)
+    {
+      phonebook.erase(it);
+      break;
+    }
+  }
+
+  ofstream outputFile(filename);
+  if (!outputFile)
+  {
+    cerr << "Error opening file for writing." << endl;
+    return;
+  }
+
+  for (const Friend &friendInfo : phonebook)
+  {
+    outputFile << friendInfo.name << " " << friendInfo.ipv6Address << endl;
+  }
+
+  outputFile.close();
+  cout << "Friend '" << friendName << "' deleted from the phonebook and phonebook saved to " << filename << endl;
 }
