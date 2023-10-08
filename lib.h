@@ -3,6 +3,7 @@
 #include <string.h>
 #include <iostream>
 #include <unistd.h>
+#include <sqlite3.h>
 #include <cstring>
 #include <thread>
 #include <mutex>

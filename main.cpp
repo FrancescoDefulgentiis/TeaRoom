@@ -1,12 +1,13 @@
-#include "lib.h"
-
+#include "phoneBook.h"
 using namespace std;
 
 int main(){
   string MyIp = Get_Public_ipv6();//retrieve my public ipv6
 
-  vector<Friend> phonebook;//define a vector of structs to store friends
+ /* vector<Friend> phonebook;//define a vector of structs to store friends
   string filename = "phonebook.txt";
+
+  
 
   // Load existing phonebook from the file (if any)
   ifstream inputFile(filename);
@@ -20,11 +21,12 @@ int main(){
     }
     inputFile.close();
   }
+*/
+  phoneBook phonebook;
 
   int choice;
   string friendName, friendIp;
   do{
-    system("clear");
     cout << "\nPhonebook Menu:" << endl;
     cout << "1. Add a friend and save phonebook" << endl;
     cout << "2. Display Friends" << endl;
@@ -35,29 +37,37 @@ int main(){
     cout << "Enter your choice: ";
     cin >> choice;
     system("clear");
+    Friend friendInfo;
     switch (choice){
     case 1:
-      addFriend(phonebook, filename);
+      //addFriend(phonebook, filename);
+      std::cout << "Enter friend's name: ";
+      cin>>friendInfo.name;
+      cout << "Enter friend's IPv6 address: ";
+      cin>>friendInfo.ipv6Address;
+      phonebook.addFriend(friendInfo);
       break;
     case 2:
-      displayFriends(phonebook);
+      //displayFriends(phonebook);
+      phonebook.displayFriends();
       cin.ignore();
       getline(cin, friendName);
       break;
     case 3:
       cout << "insert the name or the number of the friend you want to call: ";
       cin.ignore();
-      displayFriends(phonebook);
+      //displayFriends(phonebook);
+      phonebook.displayFriends();
       getline(cin, friendName);
-      friendIp = getFriendIp(phonebook, friendName);
+      friendIp = phonebook.getFriendIp(friendName);
       Setup_Call(MyIp, PORT_NUMBER, friendIp, PORT_NUMBER+1);
       break;
     case 4:
       cout << "Enter the name or the number the friend to delete: ";
       cin.ignore();
-      displayFriends(phonebook);
+      phonebook.displayFriends();
       getline(cin, friendName);
-      deleteFriend(phonebook, filename, friendName);
+      phonebook.deleteFriend(friendName);
       break;
     case 5:
       cout << "Hi!, my ipv6 is: " << MyIp << endl;
