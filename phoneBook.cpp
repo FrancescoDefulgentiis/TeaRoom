@@ -151,7 +151,7 @@ void phoneBook::addFriend(const Friend &friendInfo){
     sqlite3_close(db);
     return;
   }
-  
+
   this->reloadfriendlist();
   }
 

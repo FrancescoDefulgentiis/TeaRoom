@@ -58,6 +58,7 @@ int main(){
       cin.ignore();
       //displayFriends(phonebook);
       phonebook.displayFriends();
+      cout << "Enter the name you want to call: " << endl;
       getline(cin, friendName);
       friendIp = phonebook.getFriendIp(friendName);
       Setup_Call(MyIp, PORT_NUMBER, friendIp, PORT_NUMBER+1);
