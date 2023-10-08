@@ -1,6 +1,4 @@
-#include "lib.h"
-
-
+#include "phoneBook.h" 
 using namespace std;
 
 // Function to add a friend to the phonebook vector of structs and save the phonebook into a file
@@ -10,6 +8,7 @@ void addFriend(vector<Friend> &phonebook, const string &filename){
 
   while(flag){
     cout << "Enter friend's name: ";
+
     cin.ignore();
     getline(cin, friendInfo.name);
     flag = false;
@@ -46,8 +45,10 @@ void displayFriends(const vector<Friend> &phonebook){
     cout << "Phonebook is empty." << endl;
   }else{
     cout << "\nList of Friends:" << endl;
+    int counter = 0;
     for (const Friend &friendInfo : phonebook){//prnt out all your friends
-      cout << "Name: " << friendInfo.name << "\tIPv6 Address: " << friendInfo.ipv6Address << endl;
+    counter++;
+      cout <<counter <<") Name: " << friendInfo.name << "\tIPv6 Address: " << friendInfo.ipv6Address << endl;
     }
   }
 }
@@ -88,4 +89,59 @@ void deleteFriend(vector<Friend> &phonebook, const string &filename, const strin
 
   outputFile.close();
   cout << "Friend '" << friendName << "' deleted from the phonebook and phonebook saved to " << filename << endl;
+}
+
+phoneBook::phoneBook(){
+  // Load existing phonebook from the file (if any)
+  ifstream inputFile(filename);
+  if (inputFile){
+    string name, ipv6Address;
+    while (inputFile >> name >> ipv6Address){
+      Friend friendInfo;
+      friendInfo.name = name;
+      friendInfo.ipv6Address = ipv6Address;
+      phonebook.push_back(friendInfo);
+    }
+    inputFile.close();
+  }
+}
+
+
+void phoneBook::addFriend(){
+  Friend friendInfo;
+  bool flag = true;
+  std::cout << "Enter friend's name: ";
+  cin>>friendInfo.name;
+  cout << "Enter friend's IPv6 address: ";
+  cin>>friendInfo.ipv6Address;
+  this->phonebook.push_back(friendInfo);
+  this->savephonebook();
+  cout << "Friend added and phonebook saved to " << this->filename << endl;
+}
+
+void phoneBook::displayFriends(){
+    if (this->phonebook.empty()){//check if you have any friends
+    cout << "Phonebook is empty." << endl;
+  }else{
+    cout << "\nList of Friends:" << endl;
+    int counter = 0;
+    for (const Friend &friendInfo : phonebook){//prnt out all your friends
+    counter++;
+      cout <<counter <<") Name: " << friendInfo.name << "\tIPv6 Address: " << friendInfo.ipv6Address << endl;
+    }
+  }
+
+}
+
+string phoneBook::getFriendIp(const string& friendName){
+    for(const Friend& element : this->phonebook){
+        if (element.name == friendName) {
+            return element.ipv6Address;
+        }
+    }
+    return "Friend not found"; // Return a message if the friend is not in the phonebook
+}
+
+void phoneBook::deleteFriend(const string& friendname){
+
 }

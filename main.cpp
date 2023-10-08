@@ -24,6 +24,7 @@ int main(){
   int choice;
   string friendName, friendIp;
   do{
+    system("clear");
     cout << "\nPhonebook Menu:" << endl;
     cout << "1. Add a friend and save phonebook" << endl;
     cout << "2. Display Friends" << endl;
@@ -33,7 +34,7 @@ int main(){
     cout << "6. Exit" << endl;
     cout << "Enter your choice: ";
     cin >> choice;
-
+    system("clear");
     switch (choice){
     case 1:
       addFriend(phonebook, filename);
@@ -44,15 +45,17 @@ int main(){
       getline(cin, friendName);
       break;
     case 3:
-      cout << "insert the name of the friend you want to call: ";
+      cout << "insert the name or the number of the friend you want to call: ";
       cin.ignore();
+      displayFriends(phonebook);
       getline(cin, friendName);
       friendIp = getFriendIp(phonebook, friendName);
       Setup_Call(MyIp, PORT_NUMBER, friendIp, PORT_NUMBER+1);
       break;
     case 4:
-      cout << "Enter the name of the friend to delete: ";
+      cout << "Enter the name or the number the friend to delete: ";
       cin.ignore();
+      displayFriends(phonebook);
       getline(cin, friendName);
       deleteFriend(phonebook, filename, friendName);
       break;
