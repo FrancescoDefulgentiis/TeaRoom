@@ -1,5 +1,17 @@
-#include "lib.h"
+#include "../main.h"
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sqlite3.h>
+
 using namespace std;
+
+// Structure to represent a friend's information
+struct Friend
+{
+  std::string name;
+  std::string ipv6Address;
+};
 
 class phoneBook{
   public:

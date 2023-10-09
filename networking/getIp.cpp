@@ -1,4 +1,4 @@
-#include "lib.h"
+#include "../main.h"
 #include <curl/curl.h>
 
 using namespace std;

@@ -1,4 +1,4 @@
-#include "lib.h"
+#include "../main.h"
 
 #define MAX_BUFFER_SIZE 10 // Define the maximum number of frames to store in the buffer
 
