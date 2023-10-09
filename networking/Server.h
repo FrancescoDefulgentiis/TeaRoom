@@ -8,10 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-// MARK: DATA TYPES
 struct Server
 {
-    /* PUBLIC MEMBER VARIABLES */
     int domain;
     int service;
     int protocol;
@@ -31,8 +29,6 @@ struct ServerRoute
     char * (*route_function)(void *arg);
 };
 
-// MARK: CONSTRUCTORS
-
 struct Server server_constructor(int domain, int service, int protocol, u_long interface, int port, int backlog);
 
-#endif /* Server_h */
+#endif

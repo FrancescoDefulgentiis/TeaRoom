@@ -1,7 +1,5 @@
 #include "Node.h"
 
-// MARK: CONSTRUCTORS
-
 // The constructor is used to create new instances of nodes.
 struct Node node_constructor(void *data, unsigned long size)
 {

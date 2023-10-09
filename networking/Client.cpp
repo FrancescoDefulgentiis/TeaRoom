@@ -6,11 +6,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-// MARK: FUNCTION PROTOTYPES
-
 char * request(struct Client *client, char *server_ip, void *request, unsigned long size);
-
-// MARK: CONSTRUCTORS
 
 struct Client client_constructor(int domain, int service, int protocol, int port, u_long interface)
 {
@@ -25,8 +21,6 @@ struct Client client_constructor(int domain, int service, int protocol, int port
     // Return the constructed socket.
     return client;
 }
-
-// MARK: PRIVATE MEMBER METHODS
 
 char * request(struct Client *client, char *server_ip, void *request, unsigned long size)
 {

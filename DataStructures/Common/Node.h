@@ -5,8 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// MARK: DATA TYPES
-
 // Nodes are used to store data of any type in a list.  
 struct Node
 {
@@ -18,12 +16,9 @@ struct Node
     struct Node *previous;
 };
 
-
-// MARK: CONSTRUCTORS
-
 // The constructor should be used to create nodes.
 struct Node node_constructor(void *data, unsigned long size);
 // The destructor should be used to destroy nodes.
 void node_destructor(struct Node *node);
 
-#endif /* Node_h */
+#endif

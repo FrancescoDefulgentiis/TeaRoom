@@ -2,8 +2,6 @@
 #include "Server.h"
 
 void register_routes_server(struct Server *server, char *(*route_function)(void *arg), char *path);
-
-// MARK: CONSTRUCTORS
  
 struct Server server_constructor(int domain, int service, int protocol, u_long interface, int port, int backlog)
 {

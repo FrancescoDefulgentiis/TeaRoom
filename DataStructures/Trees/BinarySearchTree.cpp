@@ -1,24 +1,12 @@
 #include "BinarySearchTree.h"
 
-// MARK: PROTOTYPES
-
-// MARK: Private Member Methods
-
 struct Node * create_node_bst(void *data, unsigned long size);
 void destroy_node_bst(struct Node *node_to_destroy);
 struct Node * iterate_bst(struct BinarySearchTree *tree, struct Node *cursor, void *data, int *direction);
 void recursive_tree_destruction(struct Node *node);
 
-
-// MARK: Public Member Methods
-
 void * search_bst(struct BinarySearchTree *tree, void *data);
 void insert_bst(struct BinarySearchTree *tree, void *data, unsigned long size);
-
-
-// MARK: DEFINITIONS
-
-// MARK: Constructors
 
 // The constructor takes a compare function pointer as its only argument and returns a defined BinarySearchTree struct.
 struct BinarySearchTree binary_search_tree_constructor(int (*compare)(void *data_one, void *data_two))
@@ -35,9 +23,6 @@ void binary_search_tree_destructor(struct BinarySearchTree tree)
 {
     recursive_tree_destruction(tree.head);
 }
-
-
-// MARK: Private Member Methods
 
 // The create_node allocates space on the heap for a node and uses the Node constructor to instantiate it.
 struct Node * create_node_bst(void *data, unsigned long size)
@@ -118,9 +103,6 @@ void recursive_tree_destruction(struct Node *node)
     destroy_node_bst(node);
 }
 
-
-// MARK: Public Member Methods
-
 // The search function utilizes the iterate function to test if a given node exists in the tree.
 // If the node is found, its data is returned.  Otherwise, NULL is returned.
 void * search_bst(struct BinarySearchTree *tree, void *data)
@@ -168,7 +150,7 @@ void insert_bst(struct BinarySearchTree *tree, void *data, unsigned long size)
 }
 
 
-int binary_search_tree_str_compare(void *data_one, void *data_two)
+int binary_search_tree_str_compare(String data_one, String data_two)
 {
     int comparison = strcmp(data_one, data_two);
     

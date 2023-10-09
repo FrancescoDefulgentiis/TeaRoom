@@ -10,7 +10,6 @@ size_t WriteCallback(void *contents, size_t size, size_t nmemb, string *output)
   return total_size;
 }
 
-//i'll be honest, 
 string Get_Public_ipv6(){
 
   string ipv6_response;
