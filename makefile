@@ -1,25 +1,30 @@
 CXX = g++ # The C++ compiler to use
 CXXFLAGS = -g -Wall -pthread # The compiler flags to use (-Wall = all warnings)
-LDFLAGS = -lcurl -pthread -lsqlite3 # Linker flags for libcurl
+LDFLAGS = -lcurl -pthread -lsqlite3 # Linker flags for libcurl and sqlite3
 
-# List of source files
-SOURCES = main.cpp audioNvideo/capture.cpp networking/getIp.cpp phonebook/phoneBook.cpp
+# Project directories
+SRC_DIR = .
+INCLUDE_DIR = $(SRC_DIR)
+OUTPUT = TeaRoom.exe  # Specify the output file name
 
-# The target executable
-TARGET = TeaRoom.exe
+# Find all .cpp files in the project and its subdirectories
+SRC_FILES := $(shell find $(SRC_DIR) -name '*.cpp')
 
-# The GDB file
-GDB_FILE = $(TARGET).gdb
+# Find all .h files in the project and its subdirectories
+HDR_FILES := $(shell find $(INCLUDE_DIR) -name '*.h')
 
-all: $(TARGET)
+# Libraries to link (add -lcurl to link with libcurl)
+LIBS = -lcurl -lsqlite3
 
-$(TARGET): $(SOURCES)
-	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(TARGET) $(LDFLAGS)
+# Build rule
+$(OUTPUT): $(SRC_FILES) $(HDR_FILES)
+	$(CXX) $(CXXFLAGS) -o $@ $(SRC_FILES) $(LIBS)
 
-gdb: $(TARGET)
-	gdb -ex "file $(TARGET)" -ex "run"
+.PHONY: clean run
 
 clean:
-	rm -f $(TARGET) $(GDB_FILE)
+	rm -f $(OUTPUT)
 
-.PHONY: all gdb clean
+run: $(OUTPUT)
+	./$(OUTPUT)
+

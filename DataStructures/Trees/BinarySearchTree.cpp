@@ -1,4 +1,5 @@
 #include "BinarySearchTree.h"
+#include <string.h>
 
 struct Node * create_node_bst(void *data, unsigned long size);
 void destroy_node_bst(struct Node *node_to_destroy);
@@ -150,10 +151,10 @@ void insert_bst(struct BinarySearchTree *tree, void *data, unsigned long size)
 }
 
 
-int binary_search_tree_str_compare(String data_one, String data_two)
+int binary_search_tree_str_compare(void *data_one, void *data_two)
 {
-    int comparison = strcmp(data_one, data_two);
-    
+    int comparison = strcmp((char *)data_one, (char *)data_two);
+
     if (comparison > 0)
     {
         return 1;

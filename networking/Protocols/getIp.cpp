@@ -1,5 +1,4 @@
-#include "../main.h"
-#include <curl/curl.h>
+#include "GetIp.h"
 
 using namespace std;
 

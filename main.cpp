@@ -1,5 +1,7 @@
-#include "phonebook/phoneBook.h"
 #include "main.h"
+#include "phonebook/phoneBook.h"
+#include "networking/Networking.h"
+#include "networking/Protocols/GetIp.h"
 
 using namespace std;
 
@@ -38,17 +40,10 @@ int main(){
       phonebook.displayFriends();
       cin.ignore();
       getline(cin, friendName);
-      break;/*
+      break;
     case 3:
-      cout << "insert the name or the number of the friend you want to call: ";
-      cin.ignore();
-      //displayFriends(phonebook);
-      phonebook.displayFriends();
-      cout << "Enter the name you want to call: " << endl;
-      getline(cin, friendName);
-      friendIp = phonebook.getFriendIp(friendName);
-      Setup_Call(MyIp, PORT_NUMBER, friendIp, PORT_NUMBER+1);
-      break;*/
+      startConnection();
+      break;
     case 4:
       cout << "Enter the name or the number the friend to delete: ";
       cin.ignore();
