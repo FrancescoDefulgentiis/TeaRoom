@@ -10,7 +10,7 @@ using namespace std;
 struct Friend
 {
   std::string name;
-  std::string ipv6Address;
+  std::string ipAddress;
 };
 
 class phoneBook{

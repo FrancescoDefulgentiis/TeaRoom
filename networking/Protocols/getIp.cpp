@@ -9,15 +9,16 @@ size_t WriteCallback(void *contents, size_t size, size_t nmemb, string *output)
   return total_size;
 }
 
-string Get_Public_ipv6(){
-
-  string ipv6_response;
+string Get_Public_ipv4()
+{
+  string ipv4_response;
   CURL *curl = curl_easy_init();
 
-  if (curl){
-    curl_easy_setopt(curl, CURLOPT_URL, "https://ipv6.icanhazip.com/");
+  if (curl)
+  {
+    curl_easy_setopt(curl, CURLOPT_URL, "https://ipv4.icanhazip.com/");
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ipv6_response);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ipv4_response);
 
     CURLcode res = curl_easy_perform(curl);
 
@@ -28,5 +29,5 @@ string Get_Public_ipv6(){
 
     curl_easy_cleanup(curl);
   }
-  return ipv6_response;
+  return ipv4_response;
 }

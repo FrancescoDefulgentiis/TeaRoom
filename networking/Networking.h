@@ -17,6 +17,6 @@
 
 void *server_function(void *arg);
 void client_function(std::string request);
-int startConnection();
+int startConnection(std::string FriendIp);
 
 #endif

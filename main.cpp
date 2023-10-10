@@ -6,7 +6,7 @@
 using namespace std;
 
 int main(){
-  string MyIp = Get_Public_ipv6();//retrieve my public ipv6
+  string MyIp = Get_Public_ipv4();//retrieve my public ipv4
 
   phoneBook phonebook;
 
@@ -16,7 +16,7 @@ int main(){
     cout << "\nPhonebook Menu:" << endl;
     cout << "1. Add a friend and save phonebook" << endl;
     cout << "2. Display Friends" << endl;
-    //cout << "3. Call a friend" << endl;
+    cout << "3. Call a friend" << endl;
     cout << "4. delete a friend from the phonebook" << endl;
     cout << "5. share your contact" << endl;
     cout << "6. Exit" << endl;
@@ -31,8 +31,8 @@ int main(){
       //addFriend(phonebook, filename);
       std::cout << "Enter friend's name: ";
       cin>>friendInfo.name;
-      cout << "Enter friend's IPv6 address: ";
-      cin>>friendInfo.ipv6Address;
+      cout << "Enter friend's ip address: ";
+      cin>>friendInfo.ipAddress;
       phonebook.addFriend(friendInfo);
       break;
     case 2:
@@ -42,7 +42,12 @@ int main(){
       getline(cin, friendName);
       break;
     case 3:
-      startConnection();
+      cout << "Enter the name or the number the friend to call: ";
+      cin.ignore();
+      phonebook.displayFriends();
+      getline(cin, friendInfo.name);
+      friendInfo.ipAddress = phonebook.getFriendIp(friendInfo.name);
+      startConnection(friendInfo.ipAddress);
       break;
     case 4:
       cout << "Enter the name or the number the friend to delete: ";
@@ -52,7 +57,7 @@ int main(){
       phonebook.deleteFriend(friendName);
       break;
     case 5:
-      cout << "Hi!, my ipv6 is: " << MyIp << endl;
+      cout << "Hi!, my ip address is: " << MyIp << endl;
       cin.ignore();
       getline(cin, friendName);
       break;

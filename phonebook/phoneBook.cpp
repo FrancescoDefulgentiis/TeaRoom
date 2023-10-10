@@ -13,7 +13,7 @@ phoneBook::phoneBook(){
 
   //create table if doesn't exist
   char *zErrMsg = 0;
-  rc = sqlite3_exec(db,"CREATE TABLE IF NOT EXISTS phonebook (name TEXT,ipv6Address TEXT,PRIMARY KEY (name, ipv6Address));",NULL,NULL,&zErrMsg);
+  rc = sqlite3_exec(db,"CREATE TABLE IF NOT EXISTS phonebook (name TEXT,ipAddress TEXT,PRIMARY KEY (name, ipAddress));",NULL,NULL,&zErrMsg);
   if(rc != SQLITE_OK){
     cerr << "Error creating table: " << zErrMsg << endl << endl;
     sqlite3_free(zErrMsg);
@@ -36,7 +36,7 @@ void phoneBook::reloadfriendlist(){
   while((rc = sqlite3_step(stmt)) == SQLITE_ROW){
     Friend friendInfo;
     friendInfo.name = (char*)sqlite3_column_text(stmt,0);
-    friendInfo.ipv6Address = (char*)sqlite3_column_text(stmt,1);
+    friendInfo.ipAddress = (char*)sqlite3_column_text(stmt,1);
     phonebook.push_back(friendInfo);
   }
   if(rc != SQLITE_DONE){
@@ -48,14 +48,14 @@ void phoneBook::reloadfriendlist(){
 
 void phoneBook::addFriend(const Friend &friendInfo){
   sqlite3_stmt *stmt;
-  int rc = sqlite3_prepare_v2(db,"INSERT INTO phonebook(name,ipv6Address) VALUES(?,?);",-1,&stmt,NULL);
+  int rc = sqlite3_prepare_v2(db,"INSERT INTO phonebook(name,ipAddress) VALUES(?,?);",-1,&stmt,NULL);
   if(rc != SQLITE_OK){
     cerr << "Error preparing statement: " << sqlite3_errmsg(db) << endl << endl;
     sqlite3_close(db);
     return;
   }
   sqlite3_bind_text(stmt,1,friendInfo.name.c_str(),-1,SQLITE_STATIC);
-  sqlite3_bind_text(stmt,2,friendInfo.ipv6Address.c_str(),-1,SQLITE_STATIC);
+  sqlite3_bind_text(stmt,2,friendInfo.ipAddress.c_str(),-1,SQLITE_STATIC);
   rc = sqlite3_step(stmt);
   if(rc != SQLITE_DONE){
     cerr << "Error inserting data: " << sqlite3_errmsg(db) << endl << endl;
@@ -74,7 +74,7 @@ void phoneBook::displayFriends(){
     int counter = 0;
     for (const Friend &friendInfo : phonebook){//prnt out all your friends
     counter++;
-      cout <<counter <<") Name: " << friendInfo.name << "\tIPv6 Address: " << friendInfo.ipv6Address << endl;
+      cout <<counter <<") Name: " << friendInfo.name << "\tip Address: " << friendInfo.ipAddress << endl;
     }
   }
 
@@ -82,7 +82,7 @@ void phoneBook::displayFriends(){
 
 string phoneBook::getFriendIp(const string& friendName){
   sqlite3_stmt *stmt;
-  int rc = sqlite3_prepare_v2(db,"SELECT ipv6Address FROM phonebook WHERE name = ?;",-1,&stmt,NULL);
+  int rc = sqlite3_prepare_v2(db,"SELECT ipAddress FROM phonebook WHERE name = ?;",-1,&stmt,NULL);
   if(rc != SQLITE_OK){
     cerr << "Error preparing statement: " << sqlite3_errmsg(db) << endl << endl;
     sqlite3_close(db);
@@ -95,8 +95,8 @@ string phoneBook::getFriendIp(const string& friendName){
     sqlite3_close(db);
     return "Friend not found";
   }
-  string ipv6Address;
-  return ipv6Address = (char*)sqlite3_column_text(stmt,0);
+  string ipAddress;
+  return ipAddress = (char*)sqlite3_column_text(stmt,0);
 }
 
 void phoneBook::deleteFriend(const string& friendname){

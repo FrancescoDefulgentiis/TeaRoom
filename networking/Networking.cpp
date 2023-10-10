@@ -10,8 +10,7 @@ using namespace std;
 
 void *server_function(void *arg)
 {
-
-  struct Server server = server_constructor(AF_INET6, SOCK_DGRAM, 0, INADDR_ANY, PORT, 20); // AF_INET6 IS FOR IPV6, SOCK_DGRAM IS FOR UDP, INADDR_ANY
+  struct Server server = server_constructor(AF_INET, SOCK_STREAM, 0, INADDR_ANY, PORT, 20); // AF_INET6 IS FOR IPV6, SOCK_DGRAM IS FOR UDP, INADDR_ANY
 
   struct sockaddr *address = (struct sockaddr *)&server.address; // pre-defined structure for socket address
   socklen_t address_length = (socklen_t)sizeof(server.address);
@@ -27,13 +26,13 @@ void *server_function(void *arg)
   return NULL;
 }
 
-void client_function(string request)
+void client_function(string request, string FriendIp)
 {
-  struct Client client = client_constructor(AF_INET6, SOCK_DGRAM, 0, PORT+1, INADDR_ANY); // AF_INET6 IS FOR IPV6, SOCK_DGRAM IS FOR UDP, INADDR_ANY
-  client.request(&client, "::1", request, mess_size);
+  struct Client client = client_constructor(AF_INET, SOCK_STREAM, 0, PORT, INADDR_ANY); // AF_INET6 IS FOR IPV6, SOCK_DGRAM IS FOR UDP, INADDR_ANY
+  client.request(&client, FriendIp, request, mess_size);
 }
 
-int startConnection()
+int startConnection(string FriendIp)
 {
   cout << "Starting connection..." << endl;
   pthread_t server_thread;
@@ -42,8 +41,9 @@ int startConnection()
   while (1)
   {
     string request;
+    cout << "Enter a message: ";
     cin.ignore();
     getline(cin, request);
-    client_function(request);
+    client_function(request, FriendIp);
   }
 }
