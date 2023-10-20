@@ -4,7 +4,7 @@
 #include "networking/Protocols/GetIp.h"
 
 using namespace std;
-
+/*
 int main(){
   string MyIp = Get_Public_ipv4();//retrieve my public ipv4
 
@@ -70,4 +70,94 @@ int main(){
   } while (choice != 6);
 
   return 0;
+}
+*/
+#include <iostream>
+#include <cstring>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+
+int main() {
+    // IP address and port of your friend
+    const char* friendIP = "friend_ip_address_here"; // Replace with your friend's IP address
+    int friendPort = 12345; // Replace with the port your friend is listening on
+
+    // Port for listening
+    int listenPort = 12346; // Choose an available port for listening
+
+    // Create a socket for sending
+    int sendSocket = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sendSocket == -1) {
+        perror("socket");
+        return 1;
+    }
+
+    // Set up the friend's address
+    struct sockaddr_in friendAddr;
+    friendAddr.sin_family = AF_INET;
+    friendAddr.sin_port = htons(friendPort);
+    if (inet_pton(AF_INET, friendIP, &friendAddr.sin_addr) <= 0) {
+        perror("inet_pton");
+        close(sendSocket);
+        return 1;
+    }
+
+    // Create a socket for listening
+    int listenSocket = socket(AF_INET, SOCK_DGRAM, 0);
+    if (listenSocket == -1) {
+        perror("socket");
+        close(sendSocket);
+        return 1;
+    }
+
+    // Set up the local address for listening
+    struct sockaddr_in listenAddr;
+    listenAddr.sin_family = AF_INET;
+    listenAddr.sin_port = htons(listenPort);
+    listenAddr.sin_addr.s_addr = INADDR_ANY;
+
+    // Bind the listening socket to the local address
+    if (bind(listenSocket, (struct sockaddr*)&listenAddr, sizeof(listenAddr)) == -1) {
+        perror("bind");
+        close(sendSocket);
+        close(listenSocket);
+        return 1;
+    }
+
+    std::cout << "Listening on port " << listenPort << "..." << std::endl;
+
+    // Message to send
+    const char* message = "Hello, friend!";
+
+    // Send the message to your friend
+    if (sendto(sendSocket, message, strlen(message), 0, (struct sockaddr*)&friendAddr, sizeof(friendAddr)) == -1) {
+        perror("sendto");
+        close(sendSocket);
+        close(listenSocket);
+        return 1;
+    }
+
+    std::cout << "Message sent to your friend." << std::endl;
+
+    // Buffer for receiving messages
+    char buffer[1024];
+    struct sockaddr_in senderAddr;
+    socklen_t senderAddrSize = sizeof(senderAddr);
+
+    // Receive a message
+    ssize_t bytesReceived = recvfrom(listenSocket, buffer, sizeof(buffer), 0, (struct sockaddr*)&senderAddr, &senderAddrSize);
+    if (bytesReceived == -1) {
+        perror("recvfrom");
+    } else {
+        buffer[bytesReceived] = '\0';
+        std::cout << "Received message: " << buffer << std::endl;
+    }
+
+    // Close both sockets
+    close(sendSocket);
+    close(listenSocket);
+
+    return 0;
 }
