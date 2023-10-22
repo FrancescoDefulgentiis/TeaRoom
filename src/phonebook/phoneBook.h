@@ -4,6 +4,8 @@
 #include <vector>
 #include <sqlite3.h>
 
+#define DB_PATH  "src/phonebook/phonebook.db"
+
 using namespace std;
 
 // Structure to represent a friend's information
@@ -18,7 +20,7 @@ class phoneBook{
   
     vector<Friend> phonebook;
     sqlite3* db;
-    string filename = "phonebook.db";
+    string filename = DB_PATH;
     phoneBook();
     void addFriend(const Friend &friendInfo);
     void displayFriends();
